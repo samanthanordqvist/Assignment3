@@ -23,54 +23,44 @@ public class Lab3Sorting {
         }
     }
 
-    // Quicksort.
-
-    public static void quickSort(int[] array) {
-        quickSort(array, 0, array.length - 1);
-    }
-
     // Quicksort part of an array
-    private static void quickSort(int[] array, int begin, int end) {
-        // Base case.
-        if (begin >= end)
-            return;
-
-        // Partition the array.
-        int pivot = partition(array, begin, end);
-        quickSort(array, begin, pivot);
-        quickSort(array, pivot, end);
-
-        // Now recursively quicksort the two partitions.
+    public static int[] quickSort(int[] array) {
+        return mergeSort(array, 0, array.length - 1);
     }
+    private static void quickSort(int[] array, int begin, int end) {
 
-    // Partition part of an array, and return the index where the pivot
-    // ended up.
+        int i = partition(array, begin, end);
+
+        if (begin < i -1)
+            quickSort(array, begin, i -1);
+
+        if (end > i)
+            quickSort(array, i, end);
+
+    }
 
     private static int partition(int[] array, int begin, int end) {
-        // array[begin] will be the pivot element
-        if (end == begin)
-            return 0;
-        int pivot = array[begin];
-        int low = begin - 1;
-        int high = end + 1;
-        while (low < high) {
-            while (low < high && array[++low] < array[pivot])
-                ;
-            while (high > begin && array[++high] > array[pivot])
-                ;
-            if (low < high)
+        int pivot = array[(begin + end) /2];
+        int low = begin;
+        int high = end;
+
+        while (low <= high) {
+            while (array[low] < pivot) low++;
+            while (array[high] > pivot) high--;
+
+            if (low <= high) {
                 swap(array, low, high);
-            else
-                break;
+                low++;
+                high--;
+            }
         }
         return low;
     }
-
     // Swap two elements in an array
     private static void swap(int[] array, int i, int j) {
-        int x = array[i];
+        int swap = array[i];
         array[i] = array[j];
-        array[j] = x;
+        array[j] = swap;
     }
 
     // Mergesort.
@@ -112,7 +102,7 @@ public class Lab3Sorting {
     }
 
 
-    public void heapSort(int[] array) {
+    public static void heapSort(int[] array) {
         int length = array.length;
 
         // Creates the heap.
@@ -153,16 +143,5 @@ public class Lab3Sorting {
             array[largest] = swap;
             heapify(array, largest, heapSize);
         }
-    }
-
-    public static void main(String[] args) {
-        // Put code here to try out your algorithms
-        int[] example1 = new int[] {4, 5, 6, 3, 2, 1};
-
-
-        // Insertion sort performs sorting in place, and it will
-        // modify the original array;
-        insertionSort(example1);
-        System.out.println(Arrays.toString(example1));
     }
 }
