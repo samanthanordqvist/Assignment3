@@ -25,7 +25,7 @@ public class Lab3Sorting {
 
     // Quicksort part of an array
     public static int[] quickSort(int[] array) {
-        return mergeSort(array, 0, array.length - 1);
+        return quickSort(array, 0, array.length - 1);
     }
     private static void quickSort(int[] array, int begin, int end) {
 
