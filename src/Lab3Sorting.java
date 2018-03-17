@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Lab3Sorting {
     /** This is the skeleton code for the sorting algorithms
      * implementations for Assignment 1. The methods that
@@ -27,7 +25,7 @@ public class Lab3Sorting {
     public static int[] quickSort(int[] array) {
         return quickSort(array, 0, array.length - 1);
     }
-    private static void quickSort(int[] array, int begin, int end) {
+    private static int[] quickSort(int[] array, int begin, int end) {
 
         int i = partition(array, begin, end);
 
@@ -37,6 +35,7 @@ public class Lab3Sorting {
         if (end > i)
             quickSort(array, i, end);
 
+        return array;
     }
 
     private static int partition(int[] array, int begin, int end) {
@@ -71,35 +70,32 @@ public class Lab3Sorting {
 
     // Mergesort part of an array
     private static int[] mergeSort(int[] array, int begin, int end) {
-        // Base case: array of length 0 or 1.
         if (begin > end) return new int[0];
         if (begin == end) {
             int[] result = {array[begin]};
             return result;
         }
-
-        // Midpoint of the array
         int mid = (begin+end)/2;
-
-        // Recursively sort both halves of the array,
-        // then merge the results.
-        throw new UnsupportedOperationException();
+        mergeSort(array, begin, mid);
+        mergeSort(array, mid + 1, end);
+        return merge(begin, mid, end, array);
     }
 
     // Merge two sorted arrays into one
-    private static int[] merge(int[] left, int[] right) {
-        // The result array
-        int[] result = new int[left.length + right.length];
-        // How far we have got in the result array
-        int nextResult = 0;
-        // How far we have got in the left array
-        int nextLeft = 0;
-        // How far we have got in the right array
-        int nextRight = 0;
-
-        // Idea: repeatedly copy one element from either the left or right array to the result array.
-        throw new UnsupportedOperationException();
+    private static int[] merge(int begin, int mid, int end, int[] arr) {
+        int[] tempArr = new int[arr.length];
+        for (int i = begin; i <= end; i++) tempArr[i] = arr[i];
+        int left = begin;
+        int right = mid + 1;
+        int current = begin;
+        while (left <= mid && right <= end) {
+            arr[current++] = tempArr[left] <= tempArr[right] ? tempArr[left++] : tempArr[right++];
+        }
+        int leftovers = mid - left;
+        for (int i = 0; i <= leftovers; i++) arr[current + i] = tempArr[left + i];
+        return arr;
     }
+
 
 
     public static void heapSort(int[] array) {
